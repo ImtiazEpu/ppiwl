@@ -84,7 +84,7 @@
                     Laravel
                 </div>
 
-                <div class="links">
+                <div class="links m-b-md">
                     <a href="https://laravel.com/docs">Docs</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
@@ -93,7 +93,49 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                <div id="paypal-button"></div>
             </div>
         </div>
+        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+        <script>
+            paypal.Button.render({
+                // Configure environment
+                env: 'sandbox',
+                client: {
+                    sandbox: 'Ae8UEjOcULQkQfzoemxaKhf0xvyDvFWf4Pl9HHez_keyKXBwKIAukvpGlql9Jdf3gaGhzpc-UWlh5I2Q',
+                    production: 'demo_production_client_id'
+                },
+                // Customize button (optional)
+                locale: 'en_US',
+                style: {
+                    size: 'small',
+                    color: 'silver',
+                    shape: 'pill',
+                },
+
+                // Enable Pay Now checkout flow (optional)
+                commit: true,
+
+                // Set up a payment
+                payment: function(data, actions) {
+                    return actions.payment.create({
+                        transactions: [{
+                            amount: {
+                                total: '0.01',
+                                currency: 'USD'
+                            }
+                        }]
+                    });
+                },
+                // Execute the payment
+                onAuthorize: function(data, actions) {
+                    return actions.payment.execute().then(function() {
+                        // Show a confirmation message to the buyer
+                        window.alert('Thank you for your purchase!');
+                    });
+                }
+            }, '#paypal-button');
+
+        </script>
     </body>
 </html>
