@@ -44,4 +44,13 @@ return [
         ],
     ],
 
+    'paypal' => [
+        'id' => env('PAYPAL_CLIENT_ID'),
+        'secret' => env('PAYPAL_CLIENT_SECRET'),
+        'url' => [
+            'redirect' => 'http://paypal-integration.devops/execute-payment',
+            'cancel' => 'http://paypal-integration.devops/cancel'
+        ]
+    ],
+
 ];
