@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('execute-payment', 'PaymentController@execute')->name('execute');
-Route::post('create-payment','PaymentController@create')->name('payment');
+Route::post('create-payment', 'PaymentController@create')->name('payment');
