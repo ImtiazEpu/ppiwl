@@ -119,6 +119,9 @@
                 // Set up a payment
                 payment: function(data, actions) {
                     return actions.payment.create({
+                        redirect_urls:{
+                          return_url:'http://paypal-integration.devops/execute-payment'
+                        },
                         transactions: [{
                             amount: {
                                 total: '0.01',
@@ -129,10 +132,7 @@
                 },
                 // Execute the payment
                 onAuthorize: function(data, actions) {
-                    return actions.payment.execute().then(function() {
-                        // Show a confirmation message to the buyer
-                        window.alert('Thank you for your purchase!');
-                    });
+                    return actions.redirect();
                 }
             }, '#paypal-button');
 
