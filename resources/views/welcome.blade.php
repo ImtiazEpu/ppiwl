@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
         <!-- Styles -->
         <style>
@@ -62,6 +63,7 @@
                 margin-bottom: 30px;
             }
         </style>
+        <link rel="stylesheet" href="/../node_modules/bootstrap/dist/css/bootstrap.css">
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -93,49 +95,11 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
-                <div id="paypal-button"></div>
+                <form action="{{route('payment')}}" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-info rounded">Pay now</button>
+                </form>
             </div>
         </div>
-        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-        <script>
-            paypal.Button.render({
-                // Configure environment
-                env: 'sandbox',
-                client: {
-                    sandbox: 'Ae8UEjOcULQkQfzoemxaKhf0xvyDvFWf4Pl9HHez_keyKXBwKIAukvpGlql9Jdf3gaGhzpc-UWlh5I2Q',
-                    production: 'demo_production_client_id'
-                },
-                // Customize button (optional)
-                locale: 'en_US',
-                style: {
-                    size: 'small',
-                    color: 'silver',
-                    shape: 'pill',
-                },
-
-                // Enable Pay Now checkout flow (optional)
-                commit: true,
-
-                // Set up a payment
-                payment: function(data, actions) {
-                    return actions.payment.create({
-                        redirect_urls:{
-                          return_url:'http://paypal-integration.devops/execute-payment'
-                        },
-                        transactions: [{
-                            amount: {
-                                total: '0.01',
-                                currency: 'USD'
-                            }
-                        }]
-                    });
-                },
-                // Execute the payment
-                onAuthorize: function(data, actions) {
-                    return actions.redirect();
-                }
-            }, '#paypal-button');
-
-        </script>
     </body>
 </html>
