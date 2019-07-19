@@ -49,7 +49,11 @@ return [
         'secret' => env('PAYPAL_CLIENT_SECRET'),
         'url' => [
             'redirect' => 'http://paypal-integration.devops/execute-payment',
-            'cancel' => 'http://paypal-integration.devops/cancel'
+            'cancel' => 'http://paypal-integration.devops/cancel',
+            'executeAgreement' =>[
+                'success'=>'http://paypal-integration.devops/execute-agreement/true',
+                'failure'=>'http://paypal-integration.devops/execute-agreement/false',
+            ]
         ]
     ],
 
