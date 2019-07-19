@@ -7,10 +7,14 @@ namespace App\Paypal;
 use PayPal\Api\ChargeModel;
 use PayPal\Api\Currency;
 use PayPal\Api\MerchantPreferences;
+use PayPal\Api\Patch;
+use PayPal\Api\PatchRequest;
 use PayPal\Api\PaymentDefinition;
 use PayPal\Api\Plan;
+use PayPal\Api\PlanList;
+use PayPal\Common\PayPalModel;
 
-class CreatePlan extends Paypal
+class SubscriptionPlan extends Paypal
 {
     public function create()
     {
@@ -81,12 +85,47 @@ class CreatePlan extends Paypal
     }
 
     /**
-     *
+     * @return PlanList
      */
     public function listPlan()
     {
-        $params = array('page_size' => '2');
+        $params = array('page_size' => '10');
         $planList = Plan::all($params, $this->apiContext);
         return $planList;
+    }
+
+    /**
+     * @param $id
+     * @return Plan
+     */
+    public function PlanDetails($id)
+    {
+        $plan = Plan::get($id, $this->apiContext);
+        return $plan;
+    }
+
+    /**
+     * @param $id
+     * @return Plan
+     */
+    public function PlanActivate($id)
+    {
+        $createdPlan = $this->PlanDetails($id);
+        $patch = new Patch();
+
+        $value = new PayPalModel('{
+	       "state":"ACTIVE"
+	     }');
+
+        $patch->setOp('replace')
+            ->setPath('/')
+            ->setValue($value);
+        $patchRequest = new PatchRequest();
+        $patchRequest->addPatch($patch);
+
+        $createdPlan->update($patchRequest, $this->apiContext);
+
+        $plan = Plan::get($createdPlan->getId(), $this->apiContext);
+        return $plan;
     }
 }

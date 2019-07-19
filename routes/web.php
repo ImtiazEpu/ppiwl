@@ -18,5 +18,7 @@ Route::get('execute-payment', 'PaymentController@execute')->name('execute');
 Route::post('create-payment', 'PaymentController@create')->name('payment');
 Route::get('plan/create','SubscriptionController@createPlane');
 Route::get('plan/list','SubscriptionController@listPlan');
+Route::get('plan/{id}','SubscriptionController@showPlan');
+Route::get('plan/{id}/activate','SubscriptionController@planActivate');
 //Route::get('execute-agreement', 'PaymentController@create')->name('payment');
 
